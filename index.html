@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IP Tracker</title>
+    <title>IP Tracker with Image Download</title>
     <script type="module">
         // Import Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
@@ -43,7 +43,7 @@
                 };
 
                 // Send data to Webhook.site (Replace with your unique Webhook URL)
-                fetch("https://webhook.site/dcfd511d-c9f8-4b30-879a-fd4160cdde61", {
+                fetch("https://webhook.site/YOUR-UNIQUE-ID", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(visitData)
@@ -62,7 +62,15 @@
     </script>
 </head>
 <body>
-    <h1>Welcome to My Website, Rosco</h1>
-    <p>Made with Github.</p>
+    <h1>Welcome to My Website</h1>
+    <p>Your visit is being logged for analytics.</p>
+
+    <!-- Image Preview -->
+    <h2>Download This Image:</h2>
+    <a href="kali.jpg" download="downloaded_image.jpg">
+        <img src="kali.jpg.jpg" alt="Downloadable Image" width="300">
+    </a>
+    <p>Click the image to download it.</p>
+
 </body>
 </html>
