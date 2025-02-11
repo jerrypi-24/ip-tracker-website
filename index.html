@@ -4,9 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IP Tracker</title>
+    <script type="module">
+        // Import Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+        // Firebase Configuration (Replace with your credentials)
+        const firebaseConfig = {
+            apiKey: "YOUR-API-KEY",
+            authDomain: "YOUR-PROJECT-ID.firebaseapp.com",
+            databaseURL: "https://YOUR-PROJECT-ID-default-rtdb.firebaseio.com",
+            projectId: "YOUR-PROJECT-ID",
+            storageBucket: "YOUR-PROJECT-ID.appspot.com",
+            messagingSenderId: "YOUR-MESSAGING-SENDER-ID",
+            appId: "YOUR-APP-ID"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        async function logIP() {
+            try {
+                // Get visitor's IP address
+                let response = await fetch("https://api64.ipify.org?format=json");
+                let data = await response.json();
+                let ip = data.ip;
+
+                // Collect additional visitor data
+                let visitData = {
+                    ip: ip,
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent,
+                    referrer: document.referrer || "Direct Visit",
+                    screenWidth: screen.width,
+                    screenHeight: screen.height,
+                    language: navigator.language
+                };
+
+                // Send data to Webhook.site (Replace with your unique Webhook URL)
+                fetch("https://webhook.site/YOUR-UNIQUE-ID", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(visitData)
+                });
+
+                // Store data in Firebase Realtime Database
+                push(ref(db, "visitors"), visitData);
+
+            } catch (error) {
+                console.error("Error getting IP:", error);
+            }
+        }
+
+        // Call the function to log the visitor data
+        logIP();
+    </script>
 </head>
 <body>
-    <h1>Welcome to My Website, Rosco</h1>
-    <p>I made this simple website with chatgpt.</p>
+    <h1>Welcome to My Website</h1>
+    <p>Your visit is being logged for analytics.</p>
 </body>
 </html>
